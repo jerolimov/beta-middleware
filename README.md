@@ -6,7 +6,9 @@
 var beta = require('beta-middleware');
 
 routes.get('/beta/beta.js', beta.provideClientAPI());
-routes.post('/beta/:type', beta.route());
+routes.post('/beta/:type', beta.route(function(data, callback) {
+    mongoose.save(data, callback);
+}));
 ```
 
 ### Integration as middleware
@@ -15,7 +17,9 @@ routes.post('/beta/:type', beta.route());
 var beta = require('beta-middleware');
 
 routes.get('/beta/beta.js', beta.provideClientAPI());
-routes.post('/beta/:type', beta.middleware(), function(req, res) {
+routes.post('/beta/:type', beta.middleware(function(data, callback) {
+   mongoose.save(data, callback);
+}), function(req, res) {
     res.render('registration_successful');
 });
 ```

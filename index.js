@@ -2,7 +2,8 @@
 var os = require('os');
 
 /**
- * Return a middleware-function based on the given options!
+ * Return a middleware-function based on the given (optional) options
+ * and the save routine to persist the data.
  *
  * Available options:
  *
@@ -12,10 +13,20 @@ var os = require('os');
  * saveSession will persist req.session, default is false
  *
  * @param options
+ * @param saveRoutine
  * @returns {Function}
  */
-module.exports.middleware = function(options) {
-	options = options || {};
+module.exports.middleware = function(options, saveRoutine) {
+	if (typeof options === 'function') {
+		saveRoutine = options;
+		options = {};
+	} else {
+		options = options || {};
+	}
+
+	if (typeof saveRoutine !== 'function') {
+		throw new Error('Storage not implemented for beta-middleware!');
+	}
 
 	var saveHeaders = !!options['saveHeaders'] || true;
 	var saveCookies = !!options['saveCookies'] || false;
@@ -84,33 +95,39 @@ module.exports.middleware = function(options) {
 			data.session = req.session;
 		}
 
-		if (next) {
-			next(null, data);
-		}
+		saveRoutine(data, function(err) {
+			next(err, data);
+		});
 	};
 };
 
 /**
- * Return a routing-function based on the given options!
+ * Return a routing-function based on the given (optional) options
+ * and the save routine to persist the data.
  *
  * See also module.exports.middleware for the available options.
  *
  * @param options
+ * @param saveRoutine
  * @returns {Function}
  */
-module.exports.route = function(options) {
+module.exports.route = function(options, saveRoutine) {
 
-	var middleware = module.exports.middleware(options);
+	var middleware = module.exports.middleware(options, saveRoutine);
 
 	return function(req, res) {
 		middleware(req, res, function(err, data) {
-			res.status(200).json(data);
+			if (err) {
+				res.status(500).json(err);
+			} else {
+				res.status(200).json(data);
+			}
 		});
 	};
 };
 
 module.exports.provideClientAPI = function(options) {
 	return function(req, res) {
-		res.sendFile(__dirname + '/../client/beta.js');
+		res.sendFile(__dirname + '/client/beta.js');
 	}
 };
