@@ -65,7 +65,7 @@ module.exports = function(express, mongoose, options) {
 	 * Remove a beta entry
 	 */
 	router.delete('/:id', function (req, res) {
-		if (!deleteSecret || !req.headers.authtoken) {
+		if (!deleteSecret || !req.headers.authtoken) {
 			res.status(401).end();
 		} else if (req.headers.authtoken !== deleteSecret) {
 			res.status(403).end();
