@@ -56,6 +56,6 @@ app.use('/beta', beta(express, mongoose, {
 | Route | Status code |
 |---|---|
 | `POST /beta` | 201 when successful<br/>301 when an error occurs |
-| `GET /beta[?filter]`<br/><br/>filter example: ?query.abtesting=42 | 200 when successful<br/>401 when unauthorized<br/>403 when secret doesn't match<br/>500 for other errors |
-| `GET /beta/:id` | 200 when successful<br/>401 when unauthorized<br/>403 when secret doesn't match<br/>404 if id could not be found<br/>404 if id could not be found<br/>500 for other errors |
+| `GET /beta[?filter]`<br/><br/>filter example: ?query.abtesting=42 | 200 when successful, json array<br/>401 when unauthorized<br/>403 when secret doesn't match<br/>500 for other errors |
+| `GET /beta/:id` | 200 when successful, json object<br/>401 when unauthorized<br/>403 when secret doesn't match<br/>404 if id could not be found<br/>500 for other errors |
 | `DELETE /beta/:id` | 204 when successful deleted<br/>401 when unauthorized<br/>403 when secret doesn't match<br/>404 if id could not be found<br/>500 for other errors |
