@@ -14,10 +14,10 @@ app.post('/beta/:type', beta.route(function(data, callback) {
 
 | Option | Default value | Description |
 |---|---|---|
-| `saveHeaders` | true | Includes `req.headers` into the persistant informations. |
-| `saveCookies` | false | Includes `req.cookies` into the persistant informations. |
-| `saveSignedCookies` | false | Includes `req.signedCookies` into the persistant informations. |
-| `saveSession` | false | Includes `req.session` into the persistant informations. |
+| saveHeaders | true | Includes `req.headers` into the persistent information. |
+| saveCookies | false | Includes `req.cookies` into the persistent information. |
+| saveSignedCookies | false | Includes `req.signedCookies` into the persistent information. |
+| saveSession | false | Includes `req.session` into the persistent information. |
 
 ### Integration as middleware
 
@@ -37,8 +37,8 @@ Additional options (+ save options from above):
 
 | Option | Default value | Description |
 |---|---|---|
-| `successLocation` | - | Redirect URL when informations are saved successfully.<br/>If defined the `Location` will set with status code 201. Status 201 without any data will be returned otherwise. |
-| `errorLocation` | - | Includes `req.cookies` into the persistant informations.<br/>If defined the `Location` will set with status code 301. Next middleware will be called with an error otherwise. |
+| successLocation | - | Redirect URL when information are saved successfully.<br/>If defined the `Location` will set with status code 201. Status 201 without any data will be returned otherwise. |
+| errorLocation | - | Redirect URL when an error occurred.<br/>If defined the `Location` will set with status code 301. Next middleware will be called with an error otherwise. |
 
 ### Full REST service based on Express
 
@@ -56,6 +56,6 @@ app.use('/beta', beta(express, mongoose, {
 | Route | Status code |
 |---|---|
 | `POST /beta` | 201 when successful<br/>301 when an error occurs |
-| `GET /beta[?filter]`<br/><br/>filter example: ?query.abtesting=42 | 200 when successsful<br/>401 when unauthorized<br/>403 when secret doesn't match<br/>500 for other errors |
-| `GET /beta/:id` | 200 when successsful<br/>401 when unauthorized<br/>403 when secret doesn't match,<br/>00 for other errors |
-| `DELETE /beta/:id` | 200 when successsful<br/>401 when unauthorized<br/>403 when secret doesn't match<br/>500 for other errors |
+| `GET /beta[?filter]`<br/><br/>filter example: ?query.abtesting=42 | 200 when successful<br/>401 when unauthorized<br/>403 when secret doesn't match<br/>500 for other errors |
+| `GET /beta/:id` | 200 when successful<br/>401 when unauthorized<br/>403 when secret doesn't match<br/>404 if id could not be found<br/>404 if id could not be found<br/>500 for other errors |
+| `DELETE /beta/:id` | 204 when successful deleted<br/>401 when unauthorized<br/>403 when secret doesn't match<br/>404 if id could not be found<br/>500 for other errors |
