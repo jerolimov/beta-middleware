@@ -60,6 +60,7 @@ describe('Beta', function() {
 			var req = {}, res = {}, status;
 			res.status = function(_status) { status = _status; return res; };
 			res.json = function() { return res; };
+			res.end = function() { return res; };
 			route(req, res);
 		});
 
@@ -70,6 +71,7 @@ describe('Beta', function() {
 			var req = {}, res = {}, status;
 			res.status = function(_status) { status = _status; return res; };
 			res.json = function() { return res; };
+			res.end = function() { return res; };
 			route(req, res);
 		});
 	});

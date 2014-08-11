@@ -1,4 +1,8 @@
-### A lightweight (stupid) solution to save beta forms.
+## A lightweight (stupid) solution to save beta forms.
+
+### Installation
+
+    npm install beta-middleware --save
 
 ### Integration as route
 
