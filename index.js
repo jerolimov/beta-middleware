@@ -112,22 +112,42 @@ module.exports.middleware = function(options, saveRoutine) {
  * @returns {Function}
  */
 module.exports.route = function(options, saveRoutine) {
+	if (typeof options === 'function') {
+		saveRoutine = options;
+		options = {};
+	} else {
+		options = options || {};
+	}
 
 	var middleware = module.exports.middleware(options, saveRoutine);
 
-	return function(req, res) {
+	return function(req, res, next) {
 		middleware(req, res, function(err, data) {
 			if (err) {
-				res.status(500).json(err);
+				if (typeof options.errorLocation === 'string') {
+					res.redirect(301, options.errorLocation).end();
+				} else {
+					next(err);
+				}
 			} else {
-				res.status(200).json(data);
+				if (typeof options.successLocation === 'string') {
+					res.redirect(201, options.successLocation).end();
+				} else {
+					res.status(201).end();
+				}
 			}
 		});
 	};
 };
 
 module.exports.provideClientAPI = function(options) {
-	return function(req, res) {
-		res.sendFile(__dirname + '/client/beta.js');
+	return function(req, res, next) {
+		if (res.sendFile) {
+			res.sendFile(__dirname + '/client/beta.js');
+		} else if (res.sendfile) {
+			res.sendfile(__dirname + '/client/beta.js');
+		} else {
+			next(new Error('Response has neither sendFile nor sendfile method.'));
+		}
 	}
 };

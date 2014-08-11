@@ -5,8 +5,8 @@
 ```javascript
 var beta = require('beta-middleware');
 
-routes.get('/beta/beta.js', beta.provideClientAPI());
-routes.post('/beta/:type', beta.route(function(data, callback) {
+app.get('/beta/beta.js', beta.provideClientAPI());
+app.post('/beta/:type', beta.route(function(data, callback) {
     mongoose.save(data, callback);
 }));
 ```
@@ -16,8 +16,8 @@ routes.post('/beta/:type', beta.route(function(data, callback) {
 ```javascript
 var beta = require('beta-middleware');
 
-routes.get('/beta/beta.js', beta.provideClientAPI());
-routes.post('/beta/:type', beta.middleware(function(data, callback) {
+app.get('/beta/beta.js', beta.provideClientAPI());
+app.post('/beta/:type', beta.middleware(function(data, callback) {
    mongoose.save(data, callback);
 }), function(req, res) {
     res.render('registration_successful');
