@@ -1,6 +1,6 @@
 {
   "name": "beta-middleware",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "A lightweight (stupid) solution to save beta forms.",
   "author": "Christoph Jerolimov",
   "license": "MIT",
